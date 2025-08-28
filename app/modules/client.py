@@ -6,6 +6,9 @@ import mysql.connector as sql
 import modules.login as l
 from modules.creds import user_pwd
 
+from utils.variables import ELEMENTS_FOLDER
+
+
 def get_details(email):
     global name, location, gen, clicid
     q = f'select CName,CLocation,CGender,CID from mydb.client where CEmail="{email}"'
@@ -284,7 +287,7 @@ def cli(root, email1):
 
     get_details(email)
 
-    bg.load = PhotoImage(file=f'elements\\bg{gen}.png')
+    bg.load = PhotoImage(file=str(ELEMENTS_FOLDER / "bg{gen}.png"))
     img = Label(root, image=bg.load)
     img.place(x=0, y=0)
 
@@ -316,13 +319,6 @@ def cli(root, email1):
     tab = Frame(root, bg="#FFFFFF")
     tab.place(x=460, y=300, width=520, height=350)
     bgrf = Frame(root, width=540, height=420)
-    bgrf.load = PhotoImage(file="elements\\bgr.png")
+    bgrf.load = PhotoImage(file=str(ELEMENTS_FOLDER / "bgr.png"))
     bgr = Label(root, image=bgrf.load, bg="#00b9ed")
     bgr.place(x=440, y=210)
-
-# root = Tk()
-# root.geometry("1050x700")
-# root.title("Client")
-# root.resizable(0, 0)
-# cli()
-# root.mainloop()

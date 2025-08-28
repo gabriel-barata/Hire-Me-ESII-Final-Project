@@ -6,6 +6,9 @@ import mysql.connector as sql
 import modules.login as l
 from modules.creds import user_pwd
 
+from utils.variables import ELEMENTS_FOLDER
+
+
 def logi(root):
     try:
         r2.destroy()
@@ -23,18 +26,18 @@ def mai(root):
     global r1
     r1 = Frame(root, height=700, width=1050)
     r1.place(x=0, y=0)
-    r1.render = PhotoImage(file="elements/Registration_bg.png")
+    r1.render = PhotoImage(file=str(ELEMENTS_FOLDER / "Registration_bg.png"))
     img = Label(r1, image=r1.render)
     img.place(x=0, y=0)
-    r1.Img1 = PhotoImage(file="elements/recruiter_element.png")
+    r1.Img1 = PhotoImage(file=str(ELEMENTS_FOLDER / "recruiter_element.png"))
     recruit = Button(r1, image=r1.Img1, border=0, bg="#03DDEE",
                      relief="raised", activebackground="#03EAFD", command=lambda: recruiter_regis(root))
     recruit.place(x=140, y=340)
-    r1.Img2 = PhotoImage(file="elements/client_element.png")
+    r1.Img2 = PhotoImage(file=str(ELEMENTS_FOLDER / "client_element.png"))
     recruit2 = Button(r1, image=r1.Img2, border=0, bg="#05edFC",
                       relief="raised", activebackground="#05F6FD", command=lambda: client_regis(root))
     recruit2.place(x=360, y=340)
-    r1.bn = PhotoImage(file="elements\\backlogin.png")
+    r1.bn = PhotoImage(file=str(ELEMENTS_FOLDER / "backlogin.png"))
     btn = Button(r1, image=r1.bn, bg='#05e4f6',
                  bd=0, activebackground="#05e4f6", command=lambda: logi(root))
     btn.place(x=220, y=550)
@@ -46,7 +49,7 @@ def recruiter_regis(root):
     r1.destroy()
     r2 = Frame(root, height=700, width=1050)
     r2.place(x=0, y=0)
-    r2.render = PhotoImage(file="elements/reg_bg.png")
+    r2.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
     img = Label(r2, image=r2.render)
     img.place(x=0, y=0)
     name_l = Label(r2, text="Name : ", bg='#FFFFFF', fg="#00B9ED",
@@ -73,12 +76,12 @@ def recruiter_regis(root):
     cpwd = Entry(r2, placeholder='Confirm Password', show="*", width=20)
     cpwd.place(x=290, y=400)
 
-    r2.bn = PhotoImage(file="elements\\next1.png")
+    r2.bn = PhotoImage(file=str(ELEMENTS_FOLDER / "next1.png"))
     btn = Button(r2, image=r2.bn, bg='#FFFFFF', bd=0,
                  activebackground="#ffffff", command=lambda: recruiter_check(root))
     btn.place(x=320, y=500)
 
-    r2.back = PhotoImage(file="elements\\back.png")
+    r2.back = PhotoImage(file=str(ELEMENTS_FOLDER / "back.png"))
     btn2 = Button(r2, image=r2.back, bg='#FFFFFF', bd=0,
                   activebackground="#ffffff", command=lambda: mai(root))
     btn2.place(x=120, y=500)
@@ -121,7 +124,7 @@ def recruit_complete(root):
     print("hello ", name1, ", Let's complete your profile")
     r3 = Frame(root, height=700, width=1050)
     r3.place(x=0, y=0)
-    r3.render = PhotoImage(file="elements/reg_bg.png")
+    r3.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
     img = Label(r3, image=r3.render)
     img.place(x=0, y=0)
 
@@ -152,7 +155,7 @@ def recruit_complete(root):
     loc = Entry(r3, placeholder='Location', width=20)
     loc.place(x=290, y=350)
 
-    r3.bn = PhotoImage(file="elements\\reg.png")
+    r3.bn = PhotoImage(file=str(ELEMENTS_FOLDER / "reg.png"))
     btn = Button(r3, image=r3.bn, bg='#FFFFFF', bd=0,
                  activebackground="#ffffff", command=lambda: recruiter_submit(root))
     btn.place(x=320, y=500)
@@ -197,7 +200,7 @@ def client_regis(root):
     r1.destroy()
     r2 = Frame(root, height=700, width=1050)
     r2.place(x=0, y=0)
-    r2.render = PhotoImage(file="elements/reg_bg.png")
+    r2.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
     img = Label(r2, image=r2.render)
     img.place(x=0, y=0)
 
@@ -225,12 +228,12 @@ def client_regis(root):
     cpwd = Entry(r2, placeholder='Confirm Password', show="*", width=20)
     cpwd.place(x=290, y=400)
 
-    r2.bn = PhotoImage(file="elements\\next1.png")
+    r2.bn = PhotoImage(file=str(ELEMENTS_FOLDER / "next1.png"))
     btn = Button(r2, image=r2.bn, bg='#FFFFFF', bd=0,
                  activebackground="#ffffff", command=lambda: client_check(root))
     btn.place(x=320, y=500)
 
-    r2.back = PhotoImage(file="elements\\back.png")
+    r2.back = PhotoImage(file=str(ELEMENTS_FOLDER / "back.png"))
     btn2 = Button(r2, image=r2.back, bg='#FFFFFF', bd=0,
                   activebackground="#ffffff", command=lambda: mai(root))
     btn2.place(x=120, y=500)
@@ -273,7 +276,7 @@ def client_complete(root):
     print("hello ", name1, ", Let's complete your profile")
     r3 = Frame(root, height=700, width=1050)
     r3.place(x=0, y=0)
-    r3.render = PhotoImage(file="elements/reg_bg.png")
+    r3.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
     img = Label(r3, image=r3.render)
     img.place(x=0, y=0)
 
@@ -322,7 +325,7 @@ def client_complete(root):
     skills = Entry(r3, placeholder='separated by comma', width=20)
     skills.place(x=290, y=450)
 
-    r3.bn = PhotoImage(file="elements\\reg.png")
+    r3.bn = PhotoImage(file=str(ELEMENTS_FOLDER / "reg.png"))
     btn = Button(r3, image=r3.bn, bg='#FFFFFF', bd=0,
                  activebackground="#ffffff", command=lambda: client_submit(root))
     btn.place(x=320, y=550)

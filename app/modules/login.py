@@ -7,6 +7,9 @@ from modules.recruiter import *
 from modules.client import *
 from modules.creds import user_pwd
 
+from utils.variables import ELEMENTS_FOLDER
+
+
 def success(root, email1):
     global f
     f1.destroy()
@@ -72,7 +75,7 @@ def log(root):
     f1.place(x=0, y=0)
 
     # Background
-    f1.render = PhotoImage(file='elements\\bg.png')
+    f1.render = PhotoImage(file=str(ELEMENTS_FOLDER / "bg.png"))
     img = Label(f1, image=f1.render)
     img.place(x=0, y=0)
 
@@ -91,12 +94,12 @@ def log(root):
     pwd.place(x=720, y=350)
 
     # Buttons
-    f1.bn = PhotoImage(file="elements\\login2.png")
+    f1.bn = PhotoImage(file=str(ELEMENTS_FOLDER / "login2.png"))
     btn = Button(f1, image=f1.bn, bg='#FFFFFF', bd=0,
                  activebackground="#ffffff", command=lambda: submit(root))
     btn.place(x=820, y=420)
 
-    f1.bn1 = PhotoImage(file="elements\\reg.png")
+    f1.bn1 = PhotoImage(file=str(ELEMENTS_FOLDER / "reg.png"))
     btn1 = Button(f1, image=f1.bn1, bg='#FFFFFF', bd=0,
                   activebackground="#ffffff", command=lambda: reg(root))
     btn1.place(x=620, y=420)

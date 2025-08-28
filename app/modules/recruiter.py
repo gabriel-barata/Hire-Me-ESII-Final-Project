@@ -6,6 +6,9 @@ import mysql.connector as sql
 import modules.login as l
 from modules.creds import user_pwd
 
+from utils.variables import ELEMENTS_FOLDER
+
+
 def get_details(email):
     global name, company, gen, recid
     q = f'select RName,CompanyName,RGender,RID from mydb.recruiter where REmail="{email}"'
@@ -151,12 +154,10 @@ def create():
 
     # Create Form
     f1 = Frame(rt, width=520)
-    f1.load = PhotoImage(file="elements\\create.png")
+    f1.load = PhotoImage(file=str(ELEMENTS_FOLDER / "create.png"))
     img = Label(rt, image=f1.load, bg="#FFFFFF")
     img.grid(row=0, column=1, padx=150, pady=10)
 
-    # Form
-    # Labels
     role_l = Label(tab, text="Role :", font=(
         'normal', 18, 'bold'), bg="#FFFFFF")
     role_l.grid(row=0, column=0, pady=10, padx=10)
@@ -333,7 +334,7 @@ def rec(root, email1):
 
     get_details(email)
 
-    bg.load = PhotoImage(file=f'elements\\bg{gen}.png')
+    bg.load = PhotoImage(file=str(ELEMENTS_FOLDER / "bg{gen}.png"))
     img = Label(root, image=bg.load)
     img.place(x=0, y=0)
 
@@ -368,6 +369,6 @@ def rec(root, email1):
     tab = Frame(root, bg="#FFFFFF")
     tab.place(x=460, y=300, width=520, height=350)
     bgrf = Frame(root, width=540, height=420)
-    bgrf.load = PhotoImage(file="elements\\bgr.png")
+    bgrf.load = PhotoImage(file=str(ELEMENTS_FOLDER / "bgr.png"))
     bgr = Label(root, image=bgrf.load, bg="#00b9ed")
     bgr.place(x=440, y=210)
