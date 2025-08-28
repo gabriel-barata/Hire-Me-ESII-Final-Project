@@ -1,6 +1,6 @@
-from tkinter import Label
-from tkinter import FLAT
-from typing import NoReturn, Any, Callable
+from tkinter import FLAT, Label
+from typing import Any, Callable, NoReturn
+
 from tkinter_uix import Theme
 
 theme = Theme()
@@ -8,9 +8,18 @@ theme = Theme()
 
 class Button(Label):
     """The Button is a custom button created using a Label widget but has the same functionality as a regular button.
-All the Label methods, arguments and keyword arguments are supported as the Button is an actual Label widget"""
-    def __init__(self, master: Any, text: str = '', command: (Callable, None) = None, color: str = 'default',
-                 disabled: bool = False, *args: Any, **kwargs: Any):
+    All the Label methods, arguments and keyword arguments are supported as the Button is an actual Label widget"""
+
+    def __init__(
+        self,
+        master: Any,
+        text: str = "",
+        command: (Callable, None) = None,
+        color: str = "default",
+        disabled: bool = False,
+        *args: Any,
+        **kwargs: Any,
+    ):
         """
 
         :param Any master: The parent Window where the widget will be placed on.
@@ -22,23 +31,33 @@ All the Label methods, arguments and keyword arguments are supported as the Butt
         :param Any args: Any extra arguments.
         :param Any kwargs: Any extra keyword arguments.
         """
-        Label.__init__(self, master, text=text, padx=14, pady=6, font=('Verdana', 12), relief=FLAT, *args, **kwargs)
+        Label.__init__(
+            self,
+            master,
+            text=text,
+            padx=14,
+            pady=6,
+            font=("Verdana", 12),
+            relief=FLAT,
+            *args,
+            **kwargs,
+        )
         self.disabled = disabled
         self.colors = theme.btn_color
 
         if color not in self.colors:
-            color = 'default'
+            color = "default"
 
-        self.on_hover_color = self.colors[color]['on_hover']
+        self.on_hover_color = self.colors[color]["on_hover"]
         if not disabled:
-            self.background_color = self.colors[color]['background']
-            self.foreground_color = self.colors[color]['foreground']
-            self.bind('<Enter>', self.on_hover)
-            self.bind('<Leave>', self.off_hover)
-            self.bind('<Button-1>', lambda event: self.on_click(command))
+            self.background_color = self.colors[color]["background"]
+            self.foreground_color = self.colors[color]["foreground"]
+            self.bind("<Enter>", self.on_hover)
+            self.bind("<Leave>", self.off_hover)
+            self.bind("<Button-1>", lambda event: self.on_click(command))
         elif disabled:
-            self.background_color = self.colors[color]['disabled_bg']
-            self.foreground_color = self.colors[color]['disabled_fg']
+            self.background_color = self.colors[color]["disabled_bg"]
+            self.foreground_color = self.colors[color]["disabled_fg"]
 
         self.off_hover()
 
@@ -60,13 +79,13 @@ All the Label methods, arguments and keyword arguments are supported as the Butt
     @property
     def text(self) -> str:
         """Return button text"""
-        return self.cget('text')
+        return self.cget("text")
 
     @text.setter
-    def text(self, text='') -> NoReturn:
+    def text(self, text="") -> NoReturn:
         """Set the button text to the given value"""
         self.configure(text=text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 6.0.0
+    rev: v6.0.0
     hooks:
       - id: check-ast
       - id: check-docstring-first
@@ -16,4 +16,6 @@ repos:
     hooks:
       - id: ruff-check
         args: [--fix]
+        files: ^app/
       - id: ruff-format
+        files: ^app/

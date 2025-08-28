@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS mydb.Job (
   );
   """
 
-Create_Application_Table="""
+Create_Application_Table = """
 CREATE TABLE IF NOT EXISTS mydb.Application(
     AID INT NOT NULL AUTO_INCREMENT,
     RID INT NOT NULL,
@@ -66,4 +66,3 @@ CREATE TABLE IF NOT EXISTS mydb.Application(
     FOREIGN KEY(CID) REFERENCES mydb.Client(CID)
 );
 """
-

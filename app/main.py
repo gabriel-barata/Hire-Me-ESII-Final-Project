@@ -1,7 +1,6 @@
 from tkinter import *
-from tkinter import messagebox
-from modules.login import *
 
+from modules.login import *
 from utils.variables import ELEMENTS_FOLDER
 
 root = Tk()
