@@ -46,7 +46,7 @@ class AnchorLayout(tkinter.Frame):
         else:
             x = anchors.get(self.anchor_x)
             y = self.anchor_y
-            if x and y in ["TOP", "BOTTOM"]:
+            if x and y in str("TOP", "BOTTOM"):
                 self.pack(side=y.lower(), anchor=x)
             else:
                 raise TypeError("Invalid anchor!")

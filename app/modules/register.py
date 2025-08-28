@@ -1,5 +1,13 @@
-from tkinter import *
-from tkinter import Label, messagebox, ttk
+from tkinter import (
+    Button,
+    Frame,
+    Label,
+    PhotoImage,
+    StringVar,
+    messagebox,
+    ttk,
+)
+from tkinter.constants import END
 
 import modules.login as l
 import mysql.connector as sql
@@ -12,7 +20,8 @@ def logi(root):
     try:
         r2.destroy()
         r3.destroy()
-    except:
+    except Exception as e:
+        print(e)
         pass
     l.log(root)
 
@@ -20,7 +29,8 @@ def logi(root):
 def mai(root):
     try:
         r2.destroy()
-    except:
+    except Exception as e:
+        print(e)
         pass
     global r1
     r1 = Frame(root, height=700, width=1050)
@@ -246,8 +256,15 @@ def recruiter_submit(root):
     loc1 = loc.get()
     print(name1, email1, gender1, company1, loc1)
     if gender1 and company1 and loc1:
-        exe = f'insert into users values("{name1}","{email1}","recruiter","{pwd1}")'
-        exe1 = f'INSERT INTO mydb.Recruiter(RID, RName, REmail, CompanyName, CompanyLocation ,RGender) VALUES (NULL,"{name1}","{email1}","{company1}","{loc1}","{gender1}")'
+        exe = (
+            f'insert into users values("{name1}",'
+            + f'"{email1}","recruiter","{pwd1}")'
+        )
+        exe1 = (
+            "INSERT INTO mydb.Recruiter(RID, RName, REmail, CompanyName,"
+            + f'CompanyLocation ,RGender) VALUES (NULL,"{name1}","{email1}",'
+            + f'{company1}","{loc1}","{gender1}")'
+        )
         try:
             mycon = sql.connect(
                 host="localhost", user="root", passwd=user_pwd, database="mydb"
@@ -266,7 +283,8 @@ def recruiter_submit(root):
             mycon.close()
             messagebox.showinfo("SUCCESS!", "Registration Successful")
             logi(root)
-        except:
+        except Exception as e:
+            print(e)
             pass
 
     else:
@@ -497,7 +515,12 @@ def client_submit(root):
         exe = (
             f'insert into users values("{name1}","{email1}","client","{pwd1}")'
         )
-        exe1 = f'INSERT INTO mydb.Client(CID, CName , CEmail, CAge, CLocation, CGender, CExp, CSkills, CQualification ) VALUES (NULL, "{name1}", "{email1}", {age1}, "{loc1}", "{gender1}", {workxp1}, "{skills1}", "{qualification1}");'
+        exe1 = (
+            "INSERT INTO mydb.Client(CID, CName , CEmail, CAge, CLocation,"
+            + "CGender, CExp, CSkills, CQualification ) VALUES ("
+            + f'NULL, "{name1}", "{email1}", {age1}, "{loc1}", "{gender1}",'
+            + f'{workxp1}, "{skills1}", "{qualification1}");'
+        )
         try:
             mycon = sql.connect(
                 host="localhost", user="root", passwd=user_pwd, database="mydb"
@@ -519,7 +542,8 @@ def client_submit(root):
             mycon.close()
             messagebox.showinfo("SUCCESS!", "Registration Successful")
             logi(root)
-        except:
+        except Exception as e:
+            print(e)
             pass
 
     else:

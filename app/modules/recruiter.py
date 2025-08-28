@@ -1,5 +1,13 @@
-from tkinter import *
-from tkinter import Label, messagebox, ttk
+from tkinter import (
+    Button,
+    Frame,
+    Label,
+    PhotoImage,
+    Scrollbar,
+    messagebox,
+    ttk,
+)
+from tkinter.constants import END
 
 import modules.login as l
 import mysql.connector as sql
@@ -10,7 +18,10 @@ from utils.variables import ELEMENTS_FOLDER
 
 def get_details(email):
     global name, company, gen, recid
-    q = f'select RName,CompanyName,RGender,RID from mydb.recruiter where REmail="{email}"'
+    q = (
+        "select RName,CompanyName,RGender,RID"
+        + f'from mydb.recruiter where REmail="{email}"'
+    )
     mycon = sql.connect(
         host="localhost", user="root", passwd=user_pwd, database="mydb"
     )
@@ -28,7 +39,8 @@ def get_details(email):
 def logi(root):
     try:
         bg.destroy()
-    except:
+    except Exception as e:
+        print(e)
         pass
     l.log(root)
 
@@ -45,7 +57,11 @@ def submit_job():
         if jtype1 == "Select":
             messagebox.showinfo("ALERT!", "Please provide Job Type")
         else:
-            exe1 = f'INSERT INTO mydb.Job(RID, JID, JobRole, JobType, Qualification, MinExp, Salary) VALUES({recid}, NULL, "{role1}", "{jtype1}", "{qual1}", {exp1}, {sal1})'
+            exe1 = (
+                "INSERT INTO mydb.Job(RID, JID, JobRole, JobType,"
+                + "Qualification, MinExp, Salary) VALUES({recid}, NULL,"
+                + '"{role1}", "{jtype1}", "{qual1}", {exp1}, {sal1})'
+            )
             try:
                 mycon = sql.connect(
                     host="localhost",
@@ -65,13 +81,13 @@ def submit_job():
                 messagebox.showinfo(
                     "SUCCESS!", "You have successfully created a Job"
                 )
-            except:
+            except Exception as e:
+                print(e)
                 pass
     else:
         messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
 
 
-# -------------------------------------------- Sort Queries --------------------------------------------------------
 def sort_all(table):
     criteria = search_d.get()
     if criteria == "Select":
@@ -81,11 +97,12 @@ def sort_all(table):
         mycon = sql.connect(
             host="localhost", user="root", passwd=user_pwd, database="mydb"
         )
-
-        cur = mycon.cursor()
-        cur.execute(
-            f"select RID,JID, JobRole, JobType, Qualification, MinExp, Salary FROM mydb.Job where RID={recid} order by {criteria}"
+        query = (
+            "select RID,JID, JobRole, JobType, Qualification, MinExp,"
+            + f"Salary FROM mydb.Job where RID={recid} order by {criteria}"
         )
+        cur = mycon.cursor()
+        cur.execute(query)
         all_jobs = cur.fetchall()
         mycon.close()
     i = 0
@@ -107,9 +124,14 @@ def sort_applicants(table):
         )
 
         cur = mycon.cursor()
-        cur.execute(
-            f"SELECT job.JobRole, client.CName, client.CEmail, client.CAge, client.CLocation, client.CGender, client.CExp, client.CSkills, client.CQualification FROM application JOIN client ON application.cid=client.CID JOIN job ON job.jid=application.jid where job.rid={recid} order by {criteria}"
+        query = (
+            "SELECT job.JobRole, client.CName, client.CEmail, client.CAge,"
+            + "client.CLocation, client.CGender, client.CExp, client.CSkills,"
+            + "client.CQualification FROM application JOIN client ON"
+            + "application.cid=client.CID JOIN job ON job.jid=application.jid "
+            + f"where job.rid={recid} order by {criteria}"
         )
+        cur.execute(query)
         applicats = cur.fetchall()
         mycon.close()
         print(applicats)
@@ -124,17 +146,16 @@ def sort_applicants(table):
             i += 1
 
 
-# ----------------------------------------------Posted jobs Query-----------------------------------------------
-
-
 def show_all(table):
+    query = (
+        "select RID,JID, JobRole, JobType, Qualification,"
+        + f"MinExp, Salary FROM mydb.Job where RID={recid}"
+    )
     mycon = sql.connect(
         host="localhost", user="root", passwd=user_pwd, database="mydb"
     )
     cur = mycon.cursor()
-    cur.execute(
-        f"select RID,JID, JobRole, JobType, Qualification, MinExp, Salary FROM mydb.Job where RID={recid}"
-    )
+    cur.execute(query)
     all_jobs = cur.fetchall()
     mycon.close()
     i = 0
@@ -145,17 +166,19 @@ def show_all(table):
         i += 1
 
 
-# ----------------------------------------------Applicants-----------------------------------------------------
-
-
 def show_applicants(table):
+    query = (
+        "SELECT job.JobRole, client.CName, client.CEmail, client.CAge,"
+        + "client.CLocation, client.CGender, client.CExp, client.CSkills,"
+        + "client.CQualification FROM application JOIN client ON "
+        + "application.cid=client.CID JOIN job ON job.jid=application.jid"
+        + f"where job.rid={recid}"
+    )
     mycon = sql.connect(
         host="localhost", user="root", passwd=user_pwd, database="mydb"
     )
     cur = mycon.cursor()
-    cur.execute(
-        f"SELECT job.JobRole, client.CName, client.CEmail, client.CAge, client.CLocation, client.CGender, client.CExp, client.CSkills, client.CQualification FROM application JOIN client ON application.cid=client.CID JOIN job ON job.jid=application.jid where job.rid={recid}"
-    )
+    cur.execute(query)
     applicats = cur.fetchall()
     mycon.close()
     print(applicats)
@@ -170,7 +193,6 @@ def show_applicants(table):
         i += 1
 
 
-# ---------------------------------------------Post a Job---------------------------------------------------
 def create():
     global role, jtype, qual, exp, sal
     for widget in rt.winfo_children():
@@ -234,9 +256,6 @@ def create():
     btn.grid(row=5, column=1, pady=15)
 
 
-# -------------------------------------------------Delete A Posted Job----------------------------------------------------------
-
-
 def deletjob(table):
     selectedindex = table.focus()
     selectedvalues = table.item(selectedindex, "values")
@@ -251,9 +270,6 @@ def deletjob(table):
     mycon.close()
     messagebox.showinfo("Thanks", "Your Job has been Deleted")
     posted()
-
-
-# ----------------------------------------------Posted Jobs by Recruiter----------------------------------------------------
 
 
 def posted():
@@ -331,7 +347,6 @@ def posted():
     table.pack(fill="both", expand=1)
 
 
-# -----------------------------------------Applications on your recruiters posted jobs----------------------------------------------------------------
 def app():
     for widget in rt.winfo_children():
         widget.destroy()
@@ -408,7 +423,6 @@ def app():
     table.pack(fill="both", expand=1)
 
 
-# ---------------------------------------------------------------------------------------------------------------------------
 def rec(root, email1):
     global email
     email = email1

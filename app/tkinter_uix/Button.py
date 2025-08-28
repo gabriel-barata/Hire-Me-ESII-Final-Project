@@ -7,8 +7,10 @@ theme = Theme()
 
 
 class Button(Label):
-    """The Button is a custom button created using a Label widget but has the same functionality as a regular button.
-    All the Label methods, arguments and keyword arguments are supported as the Button is an actual Label widget"""
+    """The Button is a custom button created using a Label widget but has
+    the same functionality as a regular button. All the Label methods,
+    arguments and keyword arguments are supported as the Button is an actual
+    Label widget"""
 
     def __init__(
         self,
@@ -22,12 +24,15 @@ class Button(Label):
     ):
         """
 
-        :param Any master: The parent Window where the widget will be placed on.
+        :param Any master: The parent Window where the widget
+            will be placed on.
         :param str text: The text of the button.
         :param command: A function to be trigger when the button is pressed.
         :type command: Callable or None
-        :param str color: The available colors are - cloud, info, primary, danger, warning, success, elegant and default
-        :param bool disabled: If the button is disabled it does not respond to click and it must be a bool value.
+        :param str color: The available colors are - cloud, info, primary,
+            danger, warning, success, elegant and default
+        :param bool disabled: If the button is disabled it does not respond to
+            click and it must be a bool value.
         :param Any args: Any extra arguments.
         :param Any kwargs: Any extra keyword arguments.
         """
@@ -62,16 +67,19 @@ class Button(Label):
         self.off_hover()
 
     def on_hover(self, *args) -> NoReturn:
-        """When mouse hover over the button it changes color and display a hand pointer."""
+        """When mouse hover over the button
+        it changes color and display a hand pointer."""
         if not self.disabled:
             self.configure(bg=self.on_hover_color, cursor="hand2")
 
     def off_hover(self, *args) -> NoReturn:
-        """when mouse move away from the button it revert back to main color and default mouse pointer."""
+        """when mouse move away from the button
+        it revert back to main color and default mouse pointer."""
         self.configure(bg=self.background_color, fg=self.foreground_color)
 
     def on_click(self, command: callable) -> NoReturn:
-        """When button is clicked it triggers the function passed on the command argument."""
+        """When button is clicked it triggers the
+        function passed on the command argument."""
         if not self.disabled:
             if command:
                 command()

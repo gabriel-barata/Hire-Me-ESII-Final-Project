@@ -1,7 +1,14 @@
 import mysql.connector as sql
 from modules.creds import user_pwd
 
-from app.cv_schema_init import *
+from app.cv_schema_init import (
+    CREATE_SCHEMA,
+    Create_Application_Table,
+    Create_client_Table,
+    Create_Job_Table,
+    Create_recruiter_Table,
+    Create_users_Table,
+)
 
 mycon = sql.connect(host="localhost", user="any_test", passwd=user_pwd)
 cur = mycon.cursor()

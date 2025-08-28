@@ -1,6 +1,6 @@
-from tkinter import *
+from tkinter import Tk
 
-from modules.login import *
+from modules.login import log
 from utils.variables import ELEMENTS_FOLDER
 
 root = Tk()

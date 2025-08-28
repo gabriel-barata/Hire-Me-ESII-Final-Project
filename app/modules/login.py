@@ -1,11 +1,10 @@
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Button, Frame, Label, PhotoImage, messagebox
 
 import mysql.connector as sql
-from modules.client import *
+from modules.client import cli
 from modules.creds import user_pwd
-from modules.recruiter import *
-from modules.register import *
+from modules.recruiter import rec
+from modules.register import mai
 from tkinter_uix.Entry import Entry
 from utils.variables import ELEMENTS_FOLDER
 
@@ -15,7 +14,8 @@ def success(root, email1):
     f1.destroy()
     try:
         r1.destroy()
-    except:
+    except Exception as e:
+        print(e)
         pass
 
     s = f'select type from users where email="{email1}"'
@@ -62,7 +62,8 @@ def submit(root):
 def reg(root):
     try:
         f1.destroy()
-    except:
+    except Exception as e:
+        print(e)
         pass
     mai(root)
 
@@ -71,7 +72,8 @@ def log(root):
     global f1, email, pwd
     try:
         f2.destroy()
-    except:
+    except Exception as e:
+        print(e)
         pass
     f1 = Frame(root, width=1050, height=700, bg="#FFFFFF")
     f1.place(x=0, y=0)

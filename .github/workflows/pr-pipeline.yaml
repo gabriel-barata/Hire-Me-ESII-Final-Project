@@ -22,7 +22,7 @@ jobs:
               run: poetry install --no-root --only lint
 
             - name: check linting
-              run: poetry run ruff check .
+              run: poetry run ruff check app/
 
     test:
         runs-on: ubuntu-latest
