@@ -3,12 +3,12 @@ CREATE SCHEMA IF NOT EXISTS `mydb`;
 """
 
 Create_users_Table = """
-CREATE TABLE IF NOT EXISTS mydb.Users( 
-        name VARCHAR(45) NOT NULL, 
-        email Varchar(120) Not NULL,   
+CREATE TABLE IF NOT EXISTS mydb.Users(
+        name VARCHAR(45) NOT NULL,
+        email Varchar(120) Not NULL,
         type VARCHAR(45) NOT NULL,
-        password VARCHAR(45) NULL,  
-        UNIQUE INDEX email_UNIQUE (email), 
+        password VARCHAR(45) NULL,
+        UNIQUE INDEX email_UNIQUE (email),
         CHECK (type in ('Recruiter','Client')),
         PRIMARY KEY (email)   );
   """
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS mydb.Job (
   );
   """
 
-Create_Application_Table="""
+Create_Application_Table = """
 CREATE TABLE IF NOT EXISTS mydb.Application(
     AID INT NOT NULL AUTO_INCREMENT,
     RID INT NOT NULL,
@@ -66,4 +66,3 @@ CREATE TABLE IF NOT EXISTS mydb.Application(
     FOREIGN KEY(CID) REFERENCES mydb.Client(CID)
 );
 """
-
