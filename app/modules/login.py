@@ -1,11 +1,10 @@
 from tkinter import Button, Frame, Label, PhotoImage, messagebox
 
-import mysql.connector as sql
 from modules.client import cli
-from modules.creds import user_pwd
 from modules.recruiter import rec
 from modules.register import mai
 from tkinter_uix.Entry import Entry
+from utils.database import db_connection
 from utils.variables import ELEMENTS_FOLDER
 
 
@@ -19,13 +18,11 @@ def success(root, email1):
         pass
 
     s = f'select type from users where email="{email1}"'
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(s)
-    q = cur.fetchall()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(s)
+        q = cur.fetchall()
+
     print(q)
 
     if q[0][0] == "recruiter":
@@ -35,13 +32,10 @@ def success(root, email1):
 
 
 def submit(root):
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute("select email,password from users")
-    total = cur.fetchall()
-    mycon.close()
+    with db_connection.managed_cursor() as cur:
+        cur.execute("select email,password from users")
+        total = cur.fetchall()
+
     email1 = email.get()
     password = pwd.get()
     if email1 and password:

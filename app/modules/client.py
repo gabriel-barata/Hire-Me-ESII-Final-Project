@@ -8,25 +8,21 @@ from tkinter import (
     ttk,
 )
 
-import modules.login as l
-import mysql.connector as sql
-from modules.creds import user_pwd
+import modules.login as login_mod
+from utils.database import db_connection
 from utils.variables import ELEMENTS_FOLDER
 
 
 def get_details(email):
     global name, location, gen, clicid
     q = (
-        "select CName,CLocation,CGender,CID"
-        + f'from mydb.client where CEmail="{email}"'
+        "select CName,CLocation,CGender,CID "
+        + f'from hireme.client where CEmail="{email}"'
     )
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(q)
-    d = cur.fetchall()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(q)
+        d = cur.fetchall()
 
     name = d[0][0]
     location = d[0][1]
@@ -40,7 +36,7 @@ def logi(root):
     except Exception as e:
         print(e)
         pass
-    l.log(root)
+    login_mod.log(root)
 
 
 def apply(table):
@@ -53,32 +49,27 @@ def apply(table):
     selectedvalues = table.item(selectedindex, "values")
     ajid = selectedvalues[0]
     chkquery = (
-        f"SELECT * from mydb.application where cid={clicid} and jid={ajid}"
+        f"SELECT * from hireme.application where cid={clicid} and jid={ajid}"
     )
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(chkquery)
-    tempbuff = cur.fetchall()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(chkquery)
+        tempbuff = cur.fetchall()
+
     if tempbuff:
         messagebox.showinfo(
             "Oops", "It seems like you have already applied to this job"
         )
     else:
         query = (
-            "Insert into application values (NULL,(select rid from mydb.job "
+            "Insert into application values (NULL,(select rid from hireme.job "
             + f"where job.jid={ajid}),{ajid},{clicid})"
         )
         queryapplyjob = query
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
-        cur = mycon.cursor()
-        cur.execute(queryapplyjob)
-        mycon.commit()
-        mycon.close()
+
+        with db_connection.managed_cursor() as cur:
+            cur.execute(queryapplyjob)
+
         messagebox.showinfo("Thanks", "Your application has been submitted")
 
 
@@ -86,13 +77,10 @@ def delet(table):
     selectedindex = table.focus()
     selectedvalues = table.item(selectedindex, "values")
     aaid = selectedvalues[0]
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(f"delete from mydb.application where aid={aaid}")
-    mycon.commit()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(f"delete from hireme.application where aid={aaid}")
+
     messagebox.showinfo("Thanks", "Your application has been Deleted")
     myapp()
 
@@ -103,19 +91,17 @@ def sort_alljobs(table):
         pass
     else:
         table.delete(*table.get_children())
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
-        query = (
-            "select job.JID,job.JobRole,job.JobType, recruiter.CompanyName,"
-            + "recruiter.CompanyLocation, job.Qualification, job.MinExp,"
-            + " job.Salary from mydb.job JOIN mydb.recruiter ON "
-            + f"job.rid=recruiter.rid order by {criteria}"
-        )
-        cur = mycon.cursor()
-        cur.execute(query)
-        jobs = cur.fetchall()
-        mycon.close()
+
+        with db_connection.managed_cursor() as cur:
+            query = (
+                "select job.JID,job.JobRole,job.JobType, recruiter.CompanyName"
+                + ", recruiter.CompanyLocation, job.Qualification, job.MinExp,"
+                + " job.Salary from hireme.job JOIN hireme.recruiter ON "
+                + f"job.rid=recruiter.rid order by {criteria}"
+            )
+            cur.execute(query)
+            jobs = cur.fetchall()
+
         i = 0
         for r in jobs:
             table.insert(
@@ -133,21 +119,19 @@ def sort_myapplications(table):
         pass
     else:
         table.delete(*table.get_children())
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
-        query = (
-            "SELECT application.aid,job.JobRole, job.JobType,"
-            + "recruiter.CompanyName, recruiter.CompanyLocation, "
-            + "job.qualification, job.minexp, job.salary FROM application"
-            + "JOIN recruiter ON application.rid=recruiter.rid JOIN job ON"
-            + "application.jid=job.jid where "
-            + f"application.CID={clicid} order by {criteria}"
-        )
-        cur = mycon.cursor()
-        cur.execute(query)
-        jobs = cur.fetchall()
-        mycon.close()
+
+        with db_connection.managed_cursor() as cur:
+            query = (
+                "SELECT application.aid,job.JobRole, job.JobType,"
+                + "recruiter.CompanyName, recruiter.CompanyLocation, "
+                + "job.qualification, job.minexp, job.salary FROM application "
+                + "JOIN recruiter ON application.rid=recruiter.rid JOIN job ON"
+                + " application.jid=job.jid where "
+                + f"application.CID={clicid} order by {criteria}"
+            )
+            cur.execute(query)
+            jobs = cur.fetchall()
+
         i = 0
         for r in jobs:
             table.insert(
@@ -160,19 +144,15 @@ def sort_myapplications(table):
 
 
 def showalljobs(table):
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    query = (
-        "select job.JID,job.JobRole,job.JobType, recruiter.CompanyName,"
-        + "recruiter.CompanyLocation, job.Qualification, job.MinExp, "
-        + "job.Salary from mydb.job JOIN mydb.recruiter ON "
-        + "job.rid=recruiter.rid"
-    )
-    cur = mycon.cursor()
-    cur.execute(query)
-    jobs = cur.fetchall()
-    mycon.close()
+    with db_connection.managed_cursor() as cur:
+        query = (
+            "select job.JID,job.JobRole,job.JobType, recruiter.CompanyName,"
+            + "recruiter.CompanyLocation, job.Qualification, job.MinExp, "
+            + "job.Salary from hireme.job JOIN hireme.recruiter ON "
+            + "job.rid=recruiter.rid"
+        )
+        cur.execute(query)
+        jobs = cur.fetchall()
     i = 0
     for r in jobs:
         table.insert(
@@ -185,20 +165,18 @@ def showalljobs(table):
 
 
 def show_myapplications(table):
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    query = (
-        "SELECT application.aid,job.JobRole, job.JobType,"
-        + "recruiter.CompanyName, recruiter.CompanyLocation,"
-        + "job.qualification, job.minexp, job.salary FROM "
-        + "application JOIN recruiter ON application.rid=recruiter.rid JOIN"
-        + f" job ON application.jid=job.jid where application.CID={clicid}"
-    )
-    cur = mycon.cursor()
-    cur.execute(query)
-    applications = cur.fetchall()
-    mycon.close()
+    with db_connection.managed_cursor() as cur:
+        query = (
+            "SELECT application.aid,job.JobRole, job.JobType,"
+            + "recruiter.CompanyName, recruiter.CompanyLocation,"
+            + "job.qualification, job.minexp, job.salary FROM "
+            + "application JOIN recruiter ON application.rid=recruiter.rid "
+            + "JOIN job ON application.jid=job.jid where "
+            + f"application.CID={clicid}"
+        )
+        cur.execute(query)
+        applications = cur.fetchall()
+
     print(applications)
     i = 0
     for x in applications:
@@ -212,10 +190,6 @@ def show_myapplications(table):
 
 
 def available():
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    mycon.cursor()
     for widget in rt.winfo_children():
         widget.destroy()
     for widget in tab.winfo_children():
@@ -295,14 +269,9 @@ def available():
     table.column("Salary", width=150)
     showalljobs(table)
     table.pack(fill="both", expand=1)
-    mycon.close()
 
 
 def myapp():
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    mycon.cursor()
     for widget in rt.winfo_children():
         widget.destroy()
     for widget in tab.winfo_children():
@@ -374,14 +343,6 @@ def myapp():
     table.column("AID", width=50)
     table.column("JobRole", width=150)
     table.column("JobType", width=150)
-    table.column("CompanyName", width=150)
-    table.column("CompanyLocation", width=150)
-    table.column("Qualification", width=100)
-    table.column("MinExp", width=100)
-    table.column("Salary", width=150)
-    show_myapplications(table)
-    table.pack(fill="both", expand=1)
-    mycon.close()
 
 
 def cli(root, email1):
