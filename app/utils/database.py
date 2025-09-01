@@ -1,7 +1,8 @@
-import mysql.connector
 import os
-from dotenv import load_dotenv
 from contextlib import contextmanager
+
+import mysql.connector
+from dotenv import load_dotenv
 
 from utils.variables import MYSQL_DATABASE
 
@@ -24,7 +25,7 @@ class MySQLConnection:
                     host=self._host,
                     user=self._user,
                     password=self._password,
-                    database=self._database
+                    database=self._database,
                 )
             except mysql.connector.Error as err:
                 print(err)

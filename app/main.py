@@ -3,7 +3,6 @@ from tkinter import Tk
 from modules.login import log
 from utils.variables import ELEMENTS_FOLDER
 
-
 if __name__ == "__main__":
     root = Tk()
     root.geometry("1050x700")

@@ -4,8 +4,8 @@ from modules.client import cli
 from modules.recruiter import rec
 from modules.register import mai
 from tkinter_uix.Entry import Entry
-from utils.variables import ELEMENTS_FOLDER
 from utils.database import db_connection
+from utils.variables import ELEMENTS_FOLDER
 
 
 def success(root, email1):

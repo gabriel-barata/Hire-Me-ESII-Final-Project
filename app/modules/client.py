@@ -9,8 +9,8 @@ from tkinter import (
 )
 
 import modules.login as login_mod
-from utils.variables import ELEMENTS_FOLDER
 from utils.database import db_connection
+from utils.variables import ELEMENTS_FOLDER
 
 
 def get_details(email):
