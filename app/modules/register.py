@@ -21,7 +21,6 @@ def logi(root):
         r3.destroy()
     except Exception as e:
         print(e)
-        pass
     login_mod.log(root)
 
 
@@ -30,7 +29,6 @@ def mai(root):
         r2.destroy()
     except Exception as e:
         print(e)
-        pass
     global r1
     r1 = Frame(root, height=700, width=1050)
     r1.place(x=0, y=0)
@@ -277,7 +275,6 @@ def recruiter_submit(root):
             logi(root)
         except Exception as e:
             print(e)
-            pass
 
     else:
         messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
@@ -528,7 +525,6 @@ def client_submit(root):
             logi(root)
         except Exception as e:
             print(e)
-            pass
 
     else:
         messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")

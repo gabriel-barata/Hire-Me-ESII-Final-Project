@@ -15,7 +15,6 @@ def success(root, email1):
         r1.destroy()
     except Exception as e:
         print(e)
-        pass
 
     s = f'select type from users where email="{email1}"'
 
@@ -58,7 +57,6 @@ def reg(root):
         f1.destroy()
     except Exception as e:
         print(e)
-        pass
     mai(root)
 
 
@@ -68,7 +66,6 @@ def log(root):
         f2.destroy()
     except Exception as e:
         print(e)
-        pass
     f1 = Frame(root, width=1050, height=700, bg="#FFFFFF")
     f1.place(x=0, y=0)
 
