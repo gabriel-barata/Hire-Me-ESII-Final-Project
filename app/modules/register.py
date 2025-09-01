@@ -9,11 +9,10 @@ from tkinter import (
 )
 from tkinter.constants import END
 
-import modules.login as l
-import mysql.connector as sql
-from modules.creds import user_pwd
+import modules.login as login_mod
 from tkinter_uix.Entry import Entry
 from utils.variables import ELEMENTS_FOLDER
+from utils.database import db_connection
 
 
 def logi(root):
@@ -23,7 +22,7 @@ def logi(root):
     except Exception as e:
         print(e)
         pass
-    l.log(root)
+    login_mod.log(root)
 
 
 def mai(root):
@@ -154,28 +153,26 @@ def recruiter_check(root):
     email1 = email.get()
     pwd1 = pwd.get()
     cpwd1 = cpwd.get()
-    print(name1, email1, pwd1, cpwd1)
+
     if name1 and email1 and pwd1 and cpwd1:
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
-        cur = mycon.cursor()
-        cur.execute("select email from users")
-        total = cur.fetchall()
-        mycon.close()
-        exist_email = []
-        for i in total:
-            exist_email.append(i[0])
-        print("existing users:", exist_email)
+        try:
+            with db_connection.managed_cursor() as cur:
+                cur.execute("select email from users")
+                total = cur.fetchall()
 
-        if email1 in exist_email:
-            messagebox.showinfo("ALERT!", "EMAIL ALREADY REGISTERED")
-            email.delete(0, END)
+            exist_email = [row[0] for row in total]
+            print("existing users:", exist_email)
 
-        elif pwd1 == cpwd1:
-            recruit_complete(root)
-        else:
-            messagebox.showinfo("ALERT!", "PASSWORDS DO NOT MATCH")
+            if email1 in exist_email:
+                messagebox.showinfo("ALERT!", "EMAIL ALREADY REGISTERED")
+                email.delete(0, END)
+            elif pwd1 == cpwd1:
+                recruit_complete(root)
+            else:
+                messagebox.showinfo("ALERT!", "PASSWORDS DO NOT MATCH")
+
+        except Exception as e:
+            messagebox.showerror("Error", f"A database error occurred: {e}")
 
     else:
         messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
@@ -261,26 +258,21 @@ def recruiter_submit(root):
             + f'"{email1}","recruiter","{pwd1}")'
         )
         exe1 = (
-            "INSERT INTO mydb.Recruiter(RID, RName, REmail, CompanyName,"
+            "INSERT INTO hireme.recruiter(RID, RName, REmail, CompanyName,"
             + f'CompanyLocation ,RGender) VALUES (NULL,"{name1}","{email1}",'
-            + f'{company1}","{loc1}","{gender1}")'
+            + f'"{company1}","{loc1}","{gender1}")'
         )
         try:
-            mycon = sql.connect(
-                host="localhost", user="root", passwd=user_pwd, database="mydb"
-            )
-            cur = mycon.cursor()
-            cur.execute(exe)
-            cur.execute(exe1)
+            with db_connection.managed_cursor() as cur:
+                cur.execute(exe)
+                cur.execute(exe1)
             name.delete(0, END)
             email.delete(0, END)
             pwd.delete(0, END)
             cpwd.delete(0, END)
-            # gender.delete(0, END)
             loc.delete(0, END)
             company.delete(0, END)
-            mycon.commit()
-            mycon.close()
+
             messagebox.showinfo("SUCCESS!", "Registration Successful")
             logi(root)
         except Exception as e:
@@ -376,13 +368,9 @@ def client_check(root):
     cpwd1 = cpwd.get()
     print(name1, email1, pwd1, cpwd1)
     if name1 and email1 and pwd1 and cpwd1:
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
-        cur = mycon.cursor()
-        cur.execute("select email from users")
-        total = cur.fetchall()
-        mycon.close()
+        with db_connection.managed_cursor() as cur:
+            cur.execute("select email from users")
+            total = cur.fetchall()
         exist_email = []
         for i in total:
             exist_email.append(i[0])
@@ -516,18 +504,16 @@ def client_submit(root):
             f'insert into users values("{name1}","{email1}","client","{pwd1}")'
         )
         exe1 = (
-            "INSERT INTO mydb.Client(CID, CName , CEmail, CAge, CLocation,"
+            "INSERT INTO hireme.client(CID, CName , CEmail, CAge, CLocation,"
             + "CGender, CExp, CSkills, CQualification ) VALUES ("
             + f'NULL, "{name1}", "{email1}", {age1}, "{loc1}", "{gender1}",'
             + f'{workxp1}, "{skills1}", "{qualification1}");'
         )
         try:
-            mycon = sql.connect(
-                host="localhost", user="root", passwd=user_pwd, database="mydb"
-            )
-            cur = mycon.cursor()
-            cur.execute(exe)
-            cur.execute(exe1)
+            with db_connection.managed_cursor() as cur:
+                cur.execute(exe)
+                cur.execute(exe1)
+
             name.delete(0, END)
             email.delete(0, END)
             pwd.delete(0, END)
@@ -538,8 +524,6 @@ def client_submit(root):
             workxp.delete(0, END)
             qualification.delete(0, END)
             skills.delete(0, END)
-            mycon.commit()
-            mycon.close()
             messagebox.showinfo("SUCCESS!", "Registration Successful")
             logi(root)
         except Exception as e:

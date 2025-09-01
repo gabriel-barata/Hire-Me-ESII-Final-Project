@@ -9,26 +9,22 @@ from tkinter import (
 )
 from tkinter.constants import END
 
-import modules.login as l
-import mysql.connector as sql
-from modules.creds import user_pwd
+import modules.login as login_mod
 from tkinter_uix.Entry import Entry
 from utils.variables import ELEMENTS_FOLDER
+from utils.database import db_connection
 
 
 def get_details(email):
     global name, company, gen, recid
     q = (
         "select RName,CompanyName,RGender,RID"
-        + f'from mydb.recruiter where REmail="{email}"'
+        + f'from hireme.recruiter where REmail="{email}"'
     )
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(q)
-    d = cur.fetchall()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(q)
+        d = cur.fetchall()
 
     name = d[0][0]
     company = d[0][1]
@@ -42,7 +38,7 @@ def logi(root):
     except Exception as e:
         print(e)
         pass
-    l.log(root)
+    login_mod.log(root)
 
 
 def submit_job():
@@ -58,26 +54,20 @@ def submit_job():
             messagebox.showinfo("ALERT!", "Please provide Job Type")
         else:
             exe1 = (
-                "INSERT INTO mydb.Job(RID, JID, JobRole, JobType,"
+                "INSERT INTO hireme.job(RID, JID, JobRole, JobType,"
                 + "Qualification, MinExp, Salary) VALUES({recid}, NULL,"
-                + '"{role1}", "{jtype1}", "{qual1}", {exp1}, {sal1})'
+                + f'"{role1}", "{jtype1}", "{qual1}", {exp1}, {sal1})'
             )
             try:
-                mycon = sql.connect(
-                    host="localhost",
-                    user="root",
-                    passwd=user_pwd,
-                    database="mydb",
-                )
-                cur = mycon.cursor()
-                cur.execute(exe1)
+                with db_connection.managed_cursor() as cur:
+                    cur.execute(exe1)
+
                 role.delete(0, END)
                 jtype.delete(0, END)
                 qual.delete(0, END)
                 exp.delete(0, END)
                 sal.delete(0, END)
-                mycon.commit()
-                mycon.close()
+
                 messagebox.showinfo(
                     "SUCCESS!", "You have successfully created a Job"
                 )
@@ -90,21 +80,21 @@ def submit_job():
 
 def sort_all(table):
     criteria = search_d.get()
+    all_jobs = []
+
     if criteria == "Select":
         pass
     else:
         table.delete(*table.get_children())
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
-        query = (
-            "select RID,JID, JobRole, JobType, Qualification, MinExp,"
-            + f"Salary FROM mydb.Job where RID={recid} order by {criteria}"
-        )
-        cur = mycon.cursor()
-        cur.execute(query)
-        all_jobs = cur.fetchall()
-        mycon.close()
+        with db_connection.managed_cursor() as cur:
+            query = (
+                "select RID,JID, JobRole, JobType, Qualification, MinExp,"
+                + f"Salary FROM hireme.job where RID={recid} order "
+                + f"by {criteria}"
+            )
+            cur.execute(query)
+            all_jobs = cur.fetchall()
+
     i = 0
     for r in all_jobs:
         table.insert(
@@ -119,21 +109,18 @@ def sort_applicants(table):
         pass
     else:
         table.delete(*table.get_children())
-        mycon = sql.connect(
-            host="localhost", user="root", passwd=user_pwd, database="mydb"
-        )
 
-        cur = mycon.cursor()
-        query = (
-            "SELECT job.JobRole, client.CName, client.CEmail, client.CAge,"
-            + "client.CLocation, client.CGender, client.CExp, client.CSkills,"
-            + "client.CQualification FROM application JOIN client ON"
-            + "application.cid=client.CID JOIN job ON job.jid=application.jid "
-            + f"where job.rid={recid} order by {criteria}"
-        )
-        cur.execute(query)
-        applicats = cur.fetchall()
-        mycon.close()
+        with db_connection.managed_cursor() as cur:
+            query = (
+                "SELECT job.JobRole, client.CName, client.CEmail, client.CAge,"
+                + "client.CLocation, client.CGender, client.CExp, "
+                + "client.CSkills, client.CQualification FROM application "
+                + "JOIN client ON application.cid=client.CID JOIN job ON "
+                + f"job.jid=application.jid where job.rid={recid} order "
+                + f"by {criteria}"
+            )
+            cur.execute(query)
+            applicats = cur.fetchall()
         print(applicats)
         i = 0
         for x in applicats:
@@ -149,15 +136,12 @@ def sort_applicants(table):
 def show_all(table):
     query = (
         "select RID,JID, JobRole, JobType, Qualification,"
-        + f"MinExp, Salary FROM mydb.Job where RID={recid}"
+        + f"MinExp, Salary FROM hireme.job where RID={recid}"
     )
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(query)
-    all_jobs = cur.fetchall()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(query)
+        all_jobs = cur.fetchall()
     i = 0
     for r in all_jobs:
         table.insert(
@@ -172,16 +156,13 @@ def show_applicants(table):
         + "client.CLocation, client.CGender, client.CExp, client.CSkills,"
         + "client.CQualification FROM application JOIN client ON "
         + "application.cid=client.CID JOIN job ON job.jid=application.jid"
-        + f"where job.rid={recid}"
+        + f" where job.rid={recid}"
     )
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(query)
-    applicats = cur.fetchall()
-    mycon.close()
-    print(applicats)
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(query)
+        applicats = cur.fetchall()
+
     i = 0
     for x in applicats:
         table.insert(
@@ -260,14 +241,11 @@ def deletjob(table):
     selectedindex = table.focus()
     selectedvalues = table.item(selectedindex, "values")
     ajid = selectedvalues[0]
-    mycon = sql.connect(
-        host="localhost", user="root", passwd=user_pwd, database="mydb"
-    )
-    cur = mycon.cursor()
-    cur.execute(f"delete from mydb.application where jid={ajid}")
-    cur.execute(f"delete from mydb.job where jid={ajid}")
-    mycon.commit()
-    mycon.close()
+
+    with db_connection.managed_cursor() as cur:
+        cur.execute(f"delete from hireme.application where jid={ajid}")
+        cur.execute(f"delete from hireme.job where jid={ajid}")
+
     messagebox.showinfo("Thanks", "Your Job has been Deleted")
     posted()
 
