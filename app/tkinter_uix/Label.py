@@ -1,6 +1,6 @@
 from tkinter import Label as _Label
 
-from tkinter_uix import Theme
+from app.tkinter_uix import Theme
 
 theme = Theme()
 

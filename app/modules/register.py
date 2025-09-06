@@ -9,13 +9,14 @@ from tkinter import (
 )
 from tkinter.constants import END
 
-import modules.login as login_mod
-from tkinter_uix.Entry import Entry
-from utils.database import db_connection
-from utils.variables import ELEMENTS_FOLDER
+from app.tkinter_uix.Entry import Entry
+from app.utils.database import db_connection
+from app.utils.variables import ELEMENTS_FOLDER
 
 
 def logi(root):
+    import app.modules.login as login_mod
+
     try:
         r2.destroy()
         r3.destroy()

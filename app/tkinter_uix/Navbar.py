@@ -2,7 +2,7 @@ import tkinter
 
 from PIL import Image, ImageTk
 
-from tkinter_uix import Theme
+from app.tkinter_uix import Theme
 
 theme = Theme()
 

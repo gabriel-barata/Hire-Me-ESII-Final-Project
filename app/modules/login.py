@@ -1,14 +1,15 @@
 from tkinter import Button, Frame, Label, PhotoImage, messagebox
 
-from modules.client import cli
-from modules.recruiter import rec
-from modules.register import mai
-from tkinter_uix.Entry import Entry
-from utils.database import db_connection
-from utils.variables import ELEMENTS_FOLDER
+from app.modules.register import mai
+from app.tkinter_uix.Entry import Entry
+from app.utils.database import db_connection
+from app.utils.variables import ELEMENTS_FOLDER
 
 
 def success(root, email1):
+    from app.modules.client import cli
+    from app.modules.recruiter import rec
+
     global f
     f1.destroy()
     try:
