@@ -1,5 +1,5 @@
 import yaml
-from utils.variables import APP_FOLDER
+from app.utils.variables import APP_FOLDER
 
 THEMES_FOLDER = APP_FOLDER / "tkinter_uix/themes"
 

@@ -1,6 +1,6 @@
 from tkinter import ttk
 
-from tkinter_uix import Theme
+from app.tkinter_uix import Theme
 
 theme = Theme()
 

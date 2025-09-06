@@ -1,7 +1,7 @@
 from tkinter import Tk
 
-from modules.login import log
-from utils.variables import ELEMENTS_FOLDER
+from app.modules.login import log
+from app.utils.variables import ELEMENTS_FOLDER
 
 if __name__ == "__main__":
     root = Tk()

@@ -2,7 +2,7 @@ from tkinter import END, FLAT, YES, X
 from tkinter import Entry as _Entry
 from tkinter import Frame as _Frame
 
-from tkinter_uix import Theme
+from app.tkinter_uix import Theme
 
 theme = Theme()
 

@@ -4,7 +4,7 @@ from contextlib import contextmanager
 import mysql.connector
 from dotenv import load_dotenv
 
-from utils.variables import MYSQL_DATABASE
+from app.utils.variables import MYSQL_DATABASE
 
 load_dotenv()
 
