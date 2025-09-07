@@ -60,7 +60,7 @@ class Button(Label):
             self.bind("<Enter>", self.on_hover)
             self.bind("<Leave>", self.off_hover)
             self.bind("<Button-1>", lambda event: self.on_click(command))
-        elif disabled:
+        else:
             self.background_color = self.colors[color]["disabled_bg"]
             self.foreground_color = self.colors[color]["disabled_fg"]
 
