@@ -18,5 +18,4 @@ class Label(_Label):
         )
 
 
-if __name__ == "__main__":
-    pass
+
