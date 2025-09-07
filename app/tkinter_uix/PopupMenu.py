@@ -49,5 +49,3 @@ class PopupMenu(tkinter.Menu):
         self.post(event.x_root, event.y_root)
 
 
-if __name__ == "__main__":
-    pass
