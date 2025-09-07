@@ -70,13 +70,17 @@ def mai(root):
     btn.place(x=220, y=550)
 
 
-def recruiter_regis(root):
+# Define the constant at the top of your file
+REG_BG_FILENAME = "reg_bg.png"
+
+# Use the constant instead of the literal in the function
+def recruit_reg(root):
     global name, email, pwd, cpwd
     print("hello recruiter")
     r1.destroy()
     r2 = Frame(root, height=700, width=1050)
     r2.place(x=0, y=0)
-    r2.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
+    r2.render = PhotoImage(file=str(ELEMENTS_FOLDER / REG_BG_FILENAME))
     img = Label(r2, image=r2.render)
     img.place(x=0, y=0)
     name_l = Label(
