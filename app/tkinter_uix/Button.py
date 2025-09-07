@@ -80,9 +80,8 @@ class Button(Label):
     def on_click(self, command: callable) -> NoReturn:
         """When button is clicked it triggers the
         function passed on the command argument."""
-        if not self.disabled:
-            if command:
-                command()
+        if not self.disabled and command:
+            command()
 
     @property
     def text(self) -> str:
