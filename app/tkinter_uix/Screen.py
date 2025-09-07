@@ -25,11 +25,7 @@ class ScreenManager:
 
     def add_screen(self, master, name, *args, **kwargs):
         screen_widget = Screen(master, *args, **kwargs)
-        if name in self.screens:
-            pass
-        else:
-            self.screens[name] = {"screen": screen_widget, "state": "hide"}
-        return screen_widget
+        self.screens[name] = screen_widget
 
     def switch_screen(self, name):
         if name in self.screens and name != self.active_screen:
