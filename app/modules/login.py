@@ -47,10 +47,10 @@ def submit(root):
                 break
         else:
             messagebox.showinfo(
-                "Alert!", "Email is not registered, Please register"
+                 "Email is not registered, Please register"
             )
     else:
-        messagebox.showinfo("Alert!", "Please Enter both Email and Password")
+        messagebox.showinfo( "Please Enter both Email and Password")
 
 
 def reg(root):
