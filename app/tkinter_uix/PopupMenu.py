@@ -21,8 +21,9 @@ class PopupMenu(tkinter.Menu):
 
     def add_sub_menu(self, label="", name="", command=None, args=()):
         sub_menu = PopupMenu(self)
+
         if label in self.sub_menus:
-            pass
+            raise ValueError(f"Submenu with label '{label}' already exists.")
         else:
             self.sub_menus[label] = sub_menu
         self.add_cascade(label=label, menu=sub_menu)
