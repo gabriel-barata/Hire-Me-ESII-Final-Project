@@ -23,5 +23,3 @@ class Notebook(ttk.Notebook):
         )
 
 
-if __name__ == "__main__":
-    pass
