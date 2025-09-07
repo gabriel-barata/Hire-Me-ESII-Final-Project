@@ -81,7 +81,7 @@ def sort_all(table):
     criteria = search_d.get()
     all_jobs = []
 
-    if not criteria == "Select":
+    if not criteria != "Select":
         table.delete(*table.get_children())
         with db_connection.managed_cursor() as cur:
             query = (
@@ -102,7 +102,7 @@ def sort_all(table):
 
 def sort_applicants(table):
     criteria = search_d.get()
-    if not criteria == "Select":
+    if not criteria != "Select":
         table.delete(*table.get_children())
 
         with db_connection.managed_cursor() as cur:
