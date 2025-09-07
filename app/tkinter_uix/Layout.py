@@ -55,5 +55,4 @@ class AnchorLayout(tkinter.Frame):
         self.pack_forget()
 
 
-if __name__ == "__main__":
-    pass
+
