@@ -46,5 +46,4 @@ class ScreenManager:
                 self.active_screen = name
 
 
-if __name__ == "__main__":
-    pass
+
