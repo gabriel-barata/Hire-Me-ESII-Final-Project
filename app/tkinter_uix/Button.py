@@ -94,5 +94,3 @@ class Button(Label):
         self.configure(text=text)
 
 
-if __name__ == "__main__":
-    pass
