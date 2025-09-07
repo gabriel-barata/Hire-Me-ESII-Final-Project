@@ -42,5 +42,4 @@ class Navbar(tkinter.Frame):
         self.header_title.configure(**kwargs)
 
 
-if __name__ == "__main__":
-    pass
+
