@@ -11,15 +11,15 @@ class PopupMenu(tkinter.Menu):
     ):
         tkinter.Menu.__init__(self, master, bg=bg, tearoff=0, *args, **kwargs)
 
-        self.sub_menus = dict()
+        self.sub_menus = {}
 
-    def add_item(self, name="", command=None, args=tuple()):
+    def add_item(self, name="", command=None, args=()):
         if command and args:
             self.add_command(label=name, command=lambda: command(args))
         else:
             self.add_command(label=name, command=command)
 
-    def add_sub_menu(self, label="", name="", command=None, args=tuple()):
+    def add_sub_menu(self, label="", name="", command=None, args=()):
         sub_menu = PopupMenu(self)
         if label in self.sub_menus:
             pass
@@ -31,7 +31,7 @@ class PopupMenu(tkinter.Menu):
         else:
             sub_menu.add_command(label=name, command=command)
 
-    def add_sub_menu_item(self, label="", name="", command=None, args=tuple()):
+    def add_sub_menu_item(self, label="", name="", command=None, args=()):
         sub_menu = self.sub_menus.get(label)
         if sub_menu:
             if command and args:
