@@ -149,6 +149,7 @@ def recruit_reg(root):
     )
     btn2.place(x=120, y=500)
 
+ALL_FIELDS_ARE_MUST_BE_FILLED = "ALL FIELDS ARE MUST BE FILLED"
 
 def recruiter_check(root):
     global name1, email1, pwd1, cpwd1
@@ -178,7 +179,7 @@ def recruiter_check(root):
             messagebox.showerror("Error", f"A database error occurred: {e}")
 
     else:
-        messagebox.showinfo("ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo(ALL_FIELDS_ARE_MUST_BE_FILLED)
 
 
 def recruit_complete(root):
@@ -282,7 +283,7 @@ def recruiter_submit(root):
             print(e)
 
     else:
-        messagebox.showinfo( "ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo( ALL_FIELDS_ARE_MUST_BE_FILLED)
 
 
 def client_regis(root):
@@ -388,7 +389,7 @@ def client_check(root):
             messagebox.showinfo("PASSWORDS DO NOT MATCH")
 
     else:
-        messagebox.showinfo("ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo(ALL_FIELDS_ARE_MUST_BE_FILLED)
 
 
 def client_complete(root):
@@ -532,4 +533,4 @@ def client_submit(root):
             print(e)
 
     else:
-        messagebox.showinfo("ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo(ALL_FIELDS_ARE_MUST_BE_FILLED)
