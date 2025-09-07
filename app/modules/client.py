@@ -87,7 +87,7 @@ def delet(table):
 
 def sort_alljobs(table):
     criteria = search_d.get()
-    if not criteria == "Select":
+    if not criteria != "Select":
         table.delete(*table.get_children())
 
         with db_connection.managed_cursor() as cur:
