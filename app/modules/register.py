@@ -185,7 +185,7 @@ def recruit_complete(root):
     print("hello ", name1, ", Let's complete your profile")
     r3 = Frame(root, height=700, width=1050)
     r3.place(x=0, y=0)
-    r3.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
+    r3.render = PhotoImage(file=str(ELEMENTS_FOLDER / REG_BG_FILENAME))
     img = Label(r3, image=r3.render)
     img.place(x=0, y=0)
 
@@ -291,7 +291,7 @@ def client_regis(root):
     r1.destroy()
     r2 = Frame(root, height=700, width=1050)
     r2.place(x=0, y=0)
-    r2.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
+    r2.render = PhotoImage(file=str(ELEMENTS_FOLDER / REG_BG_FILENAME))
     img = Label(r2, image=r2.render)
     img.place(x=0, y=0)
 
@@ -395,7 +395,7 @@ def client_complete(root):
     print("hello ", name1, ", Let's complete your profile")
     r3 = Frame(root, height=700, width=1050)
     r3.place(x=0, y=0)
-    r3.render = PhotoImage(file=str(ELEMENTS_FOLDER / "reg_bg.png"))
+    r3.render = PhotoImage(file=str(ELEMENTS_FOLDER / REG_BG_FILENAME))
     img = Label(r3, image=r3.render)
     img.place(x=0, y=0)
 
