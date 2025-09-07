@@ -21,7 +21,7 @@ class Screen(tkinter.Frame):
 class ScreenManager:
     def __init__(self):
         self.active_screen = ""
-        self.screens = dict()
+        self.screens = {}
 
     def add_screen(self, master, name, *args, **kwargs):
         screen_widget = Screen(master, *args, **kwargs)
