@@ -112,4 +112,3 @@ class Entry(_Frame):
 
 
 if __name__ == "__main__":
-    pass
