@@ -163,18 +163,18 @@ def recruiter_check(root):
             print("existing users:", exist_email)
 
             if email1 in exist_email:
-                messagebox.showinfo("ALERT!", "EMAIL ALREADY REGISTERED")
+                messagebox.showinfo( "EMAIL ALREADY REGISTERED")
                 email.delete(0, END)
             elif pwd1 == cpwd1:
                 recruit_complete(root)
             else:
-                messagebox.showinfo("ALERT!", "PASSWORDS DO NOT MATCH")
+                messagebox.showinfo( "PASSWORDS DO NOT MATCH")
 
         except Exception as e:
             messagebox.showerror("Error", f"A database error occurred: {e}")
 
     else:
-        messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo("ALL FIELDS ARE MUST BE FILLED")
 
 
 def recruit_complete(root):
@@ -278,7 +278,7 @@ def recruiter_submit(root):
             print(e)
 
     else:
-        messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo( "ALL FIELDS ARE MUST BE FILLED")
 
 
 def client_regis(root):
@@ -375,16 +375,16 @@ def client_check(root):
         print("existing users:", exist_email)
 
         if email1 in exist_email:
-            messagebox.showinfo("ALERT!", "EMAIL ALREADY REGISTERED")
+            messagebox.showinfo("EMAIL ALREADY REGISTERED")
             email.delete(0, END)
 
         elif pwd1 == cpwd1:
             client_complete(root)
         else:
-            messagebox.showinfo("ALERT!", "PASSWORDS DO NOT MATCH")
+            messagebox.showinfo("PASSWORDS DO NOT MATCH")
 
     else:
-        messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo("ALL FIELDS ARE MUST BE FILLED")
 
 
 def client_complete(root):
@@ -528,4 +528,4 @@ def client_submit(root):
             print(e)
 
     else:
-        messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo("ALL FIELDS ARE MUST BE FILLED")
