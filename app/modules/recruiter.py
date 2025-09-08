@@ -13,6 +13,8 @@ from app.tkinter_uix.Entry import Entry
 from app.utils.database import db_connection
 from app.utils.variables import ELEMENTS_FOLDER
 
+ALERT_MSG = "ALERT!"
+
 
 def logi(root):
     import app.modules.login as login_mod
@@ -51,7 +53,7 @@ def submit_job():
     print(role1, jtype1, qual1, exp1, sal1)
     if role1 and jtype1 and qual1 and exp1 and sal1:
         if jtype1 == "Select":
-            messagebox.showinfo("ALERT!", "Please provide Job Type")
+            messagebox.showinfo(ALERT_MSG, "Please provide Job Type")
         else:
             exe1 = (
                 "INSERT INTO hireme.job(RID, JID, JobRole, JobType,"
@@ -74,7 +76,7 @@ def submit_job():
             except Exception as e:
                 print(e)
     else:
-        messagebox.showinfo("ALERT!", "ALL FIELDS ARE MUST BE FILLED")
+        messagebox.showinfo(ALERT_MSG, "ALL FIELDS ARE MUST BE FILLED")
 
 
 def sort_all(table):
@@ -235,7 +237,7 @@ def create():
 def deletjob(table):
     selectedindex = table.focus()
     if not selectedindex:
-        messagebox.showinfo("ALERT!", "Please select a job to delete.")
+        messagebox.showinfo(ALERT_MSG, "Please select a job to delete.")
         return
     selectedvalues = table.item(selectedindex, "values")
     ajid = selectedvalues[0]
