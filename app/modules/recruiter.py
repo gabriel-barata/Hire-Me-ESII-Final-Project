@@ -14,6 +14,16 @@ from app.utils.database import db_connection
 from app.utils.variables import ELEMENTS_FOLDER
 
 
+def logi(root):
+    import app.modules.login as login_mod
+
+    try:
+        bg.destroy()
+    except Exception as e:
+        print(e)
+    login_mod.log(root)
+
+
 def get_details(email):
     global name, company, gen, recid
     q = (
