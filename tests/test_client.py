@@ -160,3 +160,77 @@ def test_sort_myapplications(mock_db_connection):
             " application.jid=job.jid where "
             "application.CID=1 order by JobRole"
         )
+
+
+@patch("app.modules.client.showalljobs")
+@patch("app.modules.client.ttk")
+@patch("app.modules.client.Button")
+@patch("app.modules.client.Label")
+@patch("app.modules.client.Scrollbar")
+def test_available_ui_creation(
+    mock_scrollbar, mock_label, mock_button, mock_ttk, mock_showalljobs, root
+):
+    with patch.multiple(
+        "app.modules.client",
+        create=True,
+        rt=MagicMock(),
+        tab=MagicMock(),
+        bgr=MagicMock(),
+    ):
+        client.available()
+
+        assert client.bgr.destroy.called
+        assert mock_label.called
+        assert mock_button.call_count == 2
+        assert mock_ttk.Treeview.called
+        mock_showalljobs.assert_called_once()
+
+
+@patch("app.modules.client.ttk")
+@patch("app.modules.client.Button")
+@patch("app.modules.client.Label")
+@patch("app.modules.client.Scrollbar")
+def test_myapp_ui_creation(
+    mock_scrollbar, mock_label, mock_button, mock_ttk, root
+):
+    with patch.multiple(
+        "app.modules.client",
+        create=True,
+        rt=MagicMock(),
+        tab=MagicMock(),
+        bgr=MagicMock(),
+    ):
+        client.myapp()
+
+        assert client.bgr.destroy.called
+        assert mock_label.called
+        assert mock_button.call_count == 2
+        assert mock_ttk.Treeview.called
+
+
+@patch("app.modules.client.get_details")
+@patch("app.modules.client.logi")
+@patch("app.modules.client.PhotoImage")
+@patch("app.modules.client.Button")
+@patch("app.modules.client.Label")
+@patch("app.modules.client.Frame")
+def test_cli_ui_initialization(
+    mock_frame,
+    mock_label,
+    mock_button,
+    mock_photoimage,
+    mock_logi,
+    mock_get_details,
+    root,
+):
+    test_email = "client@test.com"
+    client.gen = "M"
+
+    client.cli(root, test_email)
+
+    mock_get_details.assert_called_once_with(test_email)
+
+    texts = [c.kwargs.get("text") for c in mock_button.call_args_list]
+    assert "LOGOUT" in texts
+    assert "Available Jobs" in texts
+    assert "My Applications" in texts
