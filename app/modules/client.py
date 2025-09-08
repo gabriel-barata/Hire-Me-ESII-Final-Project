@@ -40,12 +40,11 @@ def logi(root):
 
 
 def apply(table):
-    # fetch cid,jid from treeview that is in available jobs function
-    # code
-    selectedindex = table.focus()  # that will return number index
-    # that will return list of values with columns=['JID','JobRole',
-    # 'JobType', 'CompanyName', 'CompanyLocation',
-    # 'Qualification','MinExp', 'Salary']
+    selectedindex = table.focus()
+    if not selectedindex:
+        messagebox.showinfo("ALERT!", "Please select a job to apply.")
+        return
+
     selectedvalues = table.item(selectedindex, "values")
     ajid = selectedvalues[0]
     chkquery = (
@@ -75,6 +74,11 @@ def apply(table):
 
 def delet(table):
     selectedindex = table.focus()
+    if not selectedindex:
+        messagebox.showinfo(
+            "ALERT!", "Please select an application to delete."
+        )
+        return
     selectedvalues = table.item(selectedindex, "values")
     aaid = selectedvalues[0]
 

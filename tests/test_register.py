@@ -77,6 +77,34 @@ def test_recruiter_check_password_mismatch(root, mock_register_widgets):
         mock_showinfo.assert_called_with("PASSWORDS DO NOT MATCH")
 
 
+def test_recruiter_check_missing_fields(root, mock_register_widgets):
+    register.name.get.return_value = ""
+    register.email.get.return_value = "new@recruiter.com"
+    register.pwd.get.return_value = "password123"
+    register.cpwd.get.return_value = "password123"
+
+    with patch("tkinter.messagebox.showinfo") as mock_showinfo:
+        register.recruiter_check(root)
+        mock_showinfo.assert_called_with("ALL FIELDS ARE MUST BE FILLED")
+
+
+def test_recruiter_check_database_error(
+    mock_db_connection, root, mock_register_widgets
+):
+    register.name.get.return_value = "Test Recruiter"
+    register.email.get.return_value = "new@recruiter.com"
+    register.pwd.get.return_value = "password123"
+    register.cpwd.get.return_value = "password123"
+
+    mock_db_connection.execute.side_effect = Exception("Database error")
+
+    with patch("tkinter.messagebox.showerror") as mock_showerror:
+        register.recruiter_check(root)
+        mock_showerror.assert_called_with(
+            "Error", "A database error occurred: Database error"
+        )
+
+
 def test_recruiter_submit_success(
     mock_db_connection, root, mock_register_widgets
 ):
@@ -105,6 +133,21 @@ def test_client_check_success(mock_db_connection, root, mock_register_widgets):
     with patch("app.modules.register.client_complete") as mock_client_complete:
         register.client_check(root)
         mock_client_complete.assert_called_once_with(root)
+
+
+def test_client_check_password_mismatch(
+    mock_db_connection, root, mock_register_widgets
+):
+    register.name.get.return_value = "Test Client"
+    register.email.get.return_value = "new@client.com"
+    register.pwd.get.return_value = "password123"
+    register.cpwd.get.return_value = "wrongpassword"
+
+    mock_db_connection.fetchall.return_value = []
+
+    with patch("tkinter.messagebox.showinfo") as mock_showinfo:
+        register.client_check(root)
+        mock_showinfo.assert_called_with("PASSWORDS DO NOT MATCH")
 
 
 def test_client_submit_success(
@@ -136,6 +179,4 @@ def test_client_submit_missing_fields(root, mock_register_widgets):
 
     with patch("tkinter.messagebox.showinfo") as mock_showinfo:
         register.client_submit(root)
-        mock_showinfo.assert_called_with(
-            "ALL FIELDS ARE MUST BE FILLED"
-        )
+        mock_showinfo.assert_called_with("ALL FIELDS ARE MUST BE FILLED")

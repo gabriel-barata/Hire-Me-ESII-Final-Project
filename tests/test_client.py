@@ -33,6 +33,17 @@ def test_apply_success(mock_db_connection):
         )
 
 
+def test_apply_no_item_selected():
+    table = MagicMock()
+    table.focus.return_value = ""
+
+    with patch("tkinter.messagebox.showinfo") as mock_showinfo:
+        client.apply(table)
+        mock_showinfo.assert_called_with(
+            "ALERT!", "Please select a job to apply."
+        )
+
+
 def test_apply_already_applied(mock_db_connection):
     table = MagicMock()
     table.focus.return_value = "item1"
@@ -60,6 +71,17 @@ def test_delet(mock_db_connection):
             "Thanks", "Your application has been Deleted"
         )
         mock_myapp.assert_called_once()
+
+
+def test_delet_no_item_selected(mock_db_connection):
+    table = MagicMock()
+    table.focus.return_value = ""
+
+    with patch("tkinter.messagebox.showinfo") as mock_showinfo:
+        client.delet(table)
+        mock_showinfo.assert_called_with(
+            "ALERT!", "Please select an application to delete."
+        )
 
 
 def test_showalljobs(mock_db_connection):
@@ -119,4 +141,22 @@ def test_sort_alljobs(mock_db_connection):
             ", recruiter.CompanyLocation, job.Qualification, job.MinExp,"
             " job.Salary from hireme.job JOIN hireme.recruiter ON "
             "job.rid=recruiter.rid order by JobRole"
+        )
+
+
+def test_sort_myapplications(mock_db_connection):
+    table = MagicMock()
+    client.clicid = 1
+    with patch("app.modules.client.search_d", create=True) as mock_search_d:
+        mock_search_d.get.return_value = "JobRole"
+
+        client.sort_myapplications(table)
+        table.delete.assert_called_once_with(*table.get_children())
+        mock_db_connection.execute.assert_called_with(
+            "SELECT application.aid,job.JobRole, job.JobType,"
+            "recruiter.CompanyName, recruiter.CompanyLocation, "
+            "job.qualification, job.minexp, job.salary FROM application "
+            "JOIN recruiter ON application.rid=recruiter.rid JOIN job ON"
+            " application.jid=job.jid where "
+            "application.CID=1 order by JobRole"
         )

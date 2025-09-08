@@ -44,7 +44,7 @@ def mai(root):
         bg="#03DDEE",
         relief="raised",
         activebackground="#03EAFD",
-        command=lambda: recruiter_regis(root),
+        command=lambda: recruit_reg(root),
     )
     recruit.place(x=140, y=340)
     r1.Img2 = PhotoImage(file=str(ELEMENTS_FOLDER / "client_element.png"))

@@ -96,6 +96,17 @@ def test_deletjob(mock_db_connection):
         mock_posted.assert_called_once()
 
 
+def test_deletjob_no_item_selected(mock_db_connection):
+    table = MagicMock()
+    table.focus.return_value = ""
+
+    with patch("tkinter.messagebox.showinfo") as mock_showinfo:
+        recruiter.deletjob(table)
+        mock_showinfo.assert_called_with(
+            "ALERT!", "Please select a job to delete."
+        )
+
+
 def test_show_all(mock_db_connection):
     table = MagicMock()
     mock_db_connection.fetchall.return_value = [
@@ -149,6 +160,22 @@ def test_show_applicants(mock_db_connection):
     )
 
 
+def test_sort_all(mock_db_connection):
+    table = MagicMock()
+    recruiter.recid = 1
+
+    with patch("app.modules.recruiter.search_d", create=True) as mock_search_d:
+        mock_search_d.get.return_value = "JobRole"
+
+        recruiter.sort_all(table)
+
+        table.delete.assert_called_once_with(*table.get_children())
+        mock_db_connection.execute.assert_called_once_with(
+            "select RID,JID, JobRole, JobType, Qualification, MinExp,"
+            "Salary FROM hireme.job where RID=1 order by JobRole"
+        )
+
+
 def test_sort_applicants(mock_db_connection):
     table = MagicMock()
     recruiter.recid = 1
@@ -158,5 +185,11 @@ def test_sort_applicants(mock_db_connection):
 
         recruiter.sort_applicants(table)
 
-        table.delete.assert_not_called()
-        mock_db_connection.execute.assert_not_called()
+        table.delete.assert_called_once_with(*table.get_children())
+        mock_db_connection.execute.assert_called_once_with(
+            "SELECT job.JobRole, client.CName, client.CEmail, client.CAge,"
+            "client.CLocation, client.CGender, client.CExp, "
+            "client.CSkills, client.CQualification FROM application "
+            "JOIN client ON application.cid=client.CID JOIN job ON "
+            "job.jid=application.jid where job.rid=1 order by CName"
+        )

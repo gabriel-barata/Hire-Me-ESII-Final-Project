@@ -31,16 +31,6 @@ def get_details(email):
     recid = d[0][3]
 
 
-def logi(root):
-    import app.modules.login as login_mod
-
-    try:
-        bg.destroy()
-    except Exception as e:
-        print(e)
-    login_mod.log(root)
-
-
 def submit_job():
     global role1, jtype1, qual1, exp1, sal1
     role1 = role.get()
@@ -81,7 +71,7 @@ def sort_all(table):
     criteria = search_d.get()
     all_jobs = []
 
-    if not criteria != "Select":
+    if criteria != "Select":
         table.delete(*table.get_children())
         with db_connection.managed_cursor() as cur:
             query = (
@@ -102,7 +92,7 @@ def sort_all(table):
 
 def sort_applicants(table):
     criteria = search_d.get()
-    if not criteria != "Select":
+    if criteria != "Select":
         table.delete(*table.get_children())
 
         with db_connection.managed_cursor() as cur:
@@ -234,6 +224,9 @@ def create():
 
 def deletjob(table):
     selectedindex = table.focus()
+    if not selectedindex:
+        messagebox.showinfo("ALERT!", "Please select a job to delete.")
+        return
     selectedvalues = table.item(selectedindex, "values")
     ajid = selectedvalues[0]
 
