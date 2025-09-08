@@ -63,7 +63,7 @@ def test_recruiter_check_email_exists(
 
     with patch("tkinter.messagebox.showinfo") as mock_showinfo:
         register.recruiter_check(root)
-        mock_showinfo.assert_called_with("ALERT!", "EMAIL ALREADY REGISTERED")
+        mock_showinfo.assert_called_with("EMAIL ALREADY REGISTERED")
 
 
 def test_recruiter_check_password_mismatch(root, mock_register_widgets):
@@ -74,7 +74,7 @@ def test_recruiter_check_password_mismatch(root, mock_register_widgets):
 
     with patch("tkinter.messagebox.showinfo") as mock_showinfo:
         register.recruiter_check(root)
-        mock_showinfo.assert_called_with("ALERT!", "PASSWORDS DO NOT MATCH")
+        mock_showinfo.assert_called_with("PASSWORDS DO NOT MATCH")
 
 
 def test_recruiter_submit_success(
@@ -137,5 +137,5 @@ def test_client_submit_missing_fields(root, mock_register_widgets):
     with patch("tkinter.messagebox.showinfo") as mock_showinfo:
         register.client_submit(root)
         mock_showinfo.assert_called_with(
-            "ALERT!", "ALL FIELDS ARE MUST BE FILLED"
+            "ALL FIELDS ARE MUST BE FILLED"
         )

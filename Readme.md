@@ -4,7 +4,7 @@
 docker compose up -d
 
 # rodar o programa
-poetry run python app/main.py
+poetry run python -m app.main
 
 # checar o coverage
 poetry run pytest --cov=app

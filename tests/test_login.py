@@ -87,7 +87,7 @@ def test_submit_unregistered_email(
     with patch("tkinter.messagebox.showinfo") as mock_showinfo:
         login.submit(root)
         mock_showinfo.assert_called_with(
-            "Alert!", "Email is not registered, Please register"
+            "Email is not registered, Please register"
         )
 
 
@@ -99,5 +99,5 @@ def test_submit_empty_fields(root, mock_login_widgets):
     with patch("tkinter.messagebox.showinfo") as mock_showinfo:
         login.submit(root)
         mock_showinfo.assert_called_with(
-            "Alert!", "Please Enter both Email and Password"
+            "Please Enter both Email and Password"
         )

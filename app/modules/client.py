@@ -349,7 +349,7 @@ def cli(root, email1):
 
     get_details(email)
 
-    bg.load = PhotoImage(file=str(ELEMENTS_FOLDER / "bg{gen}.png"))
+    bg.load = PhotoImage(file=str(ELEMENTS_FOLDER / f"bg{gen}.png"))
     img = Label(root, image=bg.load)
     img.place(x=0, y=0)
 

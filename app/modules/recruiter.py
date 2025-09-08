@@ -17,7 +17,7 @@ from app.utils.variables import ELEMENTS_FOLDER
 def get_details(email):
     global name, company, gen, recid
     q = (
-        "select RName,CompanyName,RGender,RID"
+        "select RName,CompanyName,RGender,RID "
         + f'from hireme.recruiter where REmail="{email}"'
     )
 
@@ -55,7 +55,7 @@ def submit_job():
         else:
             exe1 = (
                 "INSERT INTO hireme.job(RID, JID, JobRole, JobType,"
-                + "Qualification, MinExp, Salary) VALUES({recid}, NULL,"
+                + f'Qualification, MinExp, Salary) VALUES({recid}, NULL,'
                 + f'"{role1}", "{jtype1}", "{qual1}", {exp1}, {sal1})'
             )
             try:
@@ -404,7 +404,7 @@ def rec(root, email1):
 
     get_details(email)
 
-    bg.load = PhotoImage(file=str(ELEMENTS_FOLDER / "bg{gen}.png"))
+    bg.load = PhotoImage(file=str(ELEMENTS_FOLDER / f"bg{gen}.png"))
     img = Label(root, image=bg.load)
     img.place(x=0, y=0)
 

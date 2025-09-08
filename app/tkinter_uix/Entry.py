@@ -109,6 +109,3 @@ class Entry(_Frame):
         else:
             self.entry.insert(0, value)
             self.on_focus_out()
-
-
-if __name__ == "__main__":

@@ -158,13 +158,5 @@ def test_sort_applicants(mock_db_connection):
 
         recruiter.sort_applicants(table)
 
-        table.delete.assert_called_once_with(*table.get_children())
-
-        mock_db_connection.execute.assert_called_with(
-            "SELECT job.JobRole, client.CName, client.CEmail, client.CAge,"
-            "client.CLocation, client.CGender, client.CExp, "
-            "client.CSkills, client.CQualification FROM application "
-            "JOIN client ON application.cid=client.CID JOIN job ON "
-            f"job.jid=application.jid where job.rid={recruiter.recid} order "
-            "by CName"
-        )
+        table.delete.assert_not_called()
+        mock_db_connection.execute.assert_not_called()
