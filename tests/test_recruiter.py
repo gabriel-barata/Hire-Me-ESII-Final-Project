@@ -1,6 +1,8 @@
-import pytest
-from unittest.mock import MagicMock, patch
 from tkinter import Tk
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 from app.modules import recruiter
 
 
