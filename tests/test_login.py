@@ -1,6 +1,8 @@
-import pytest
-from unittest.mock import patch
 from tkinter import Tk
+from unittest.mock import patch
+
+import pytest
+
 from app.modules import login
 
 
