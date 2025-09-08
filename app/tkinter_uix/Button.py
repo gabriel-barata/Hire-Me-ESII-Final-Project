@@ -92,5 +92,3 @@ class Button(Label):
     def text(self, text="") -> NoReturn:
         """Set the button text to the given value"""
         self.configure(text=text)
-
-

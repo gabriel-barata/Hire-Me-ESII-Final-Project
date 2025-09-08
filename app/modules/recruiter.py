@@ -55,7 +55,7 @@ def submit_job():
         else:
             exe1 = (
                 "INSERT INTO hireme.job(RID, JID, JobRole, JobType,"
-                + f'Qualification, MinExp, Salary) VALUES({recid}, NULL,'
+                + f"Qualification, MinExp, Salary) VALUES({recid}, NULL,"
                 + f'"{role1}", "{jtype1}", "{qual1}", {exp1}, {sal1})'
             )
             try:

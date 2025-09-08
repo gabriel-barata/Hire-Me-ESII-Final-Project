@@ -73,6 +73,7 @@ def mai(root):
 # Define the constant at the top of your file
 REG_BG_FILENAME = "reg_bg.png"
 
+
 # Use the constant instead of the literal in the function
 def recruit_reg(root):
     global name, email, pwd, cpwd
@@ -149,7 +150,9 @@ def recruit_reg(root):
     )
     btn2.place(x=120, y=500)
 
+
 ALL_FIELDS_ARE_MUST_BE_FILLED = "ALL FIELDS ARE MUST BE FILLED"
+
 
 def recruiter_check(root):
     global name1, email1, pwd1, cpwd1
@@ -168,12 +171,12 @@ def recruiter_check(root):
             print("existing users:", exist_email)
 
             if email1 in exist_email:
-                messagebox.showinfo( "EMAIL ALREADY REGISTERED")
+                messagebox.showinfo("EMAIL ALREADY REGISTERED")
                 email.delete(0, END)
             elif pwd1 == cpwd1:
                 recruit_complete(root)
             else:
-                messagebox.showinfo( "PASSWORDS DO NOT MATCH")
+                messagebox.showinfo("PASSWORDS DO NOT MATCH")
 
         except Exception as e:
             messagebox.showerror("Error", f"A database error occurred: {e}")
@@ -283,7 +286,7 @@ def recruiter_submit(root):
             print(e)
 
     else:
-        messagebox.showinfo( ALL_FIELDS_ARE_MUST_BE_FILLED)
+        messagebox.showinfo(ALL_FIELDS_ARE_MUST_BE_FILLED)
 
 
 def client_regis(root):

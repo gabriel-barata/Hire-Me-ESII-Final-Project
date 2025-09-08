@@ -40,6 +40,3 @@ class ScreenManager:
                 self.screens[name]["screen"].show()
                 self.screens[name]["state"] = "show"
                 self.active_screen = name
-
-
-

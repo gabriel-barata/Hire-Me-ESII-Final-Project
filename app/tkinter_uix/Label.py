@@ -16,6 +16,3 @@ class Label(_Label):
             *args,
             **kwargs,
         )
-
-
-

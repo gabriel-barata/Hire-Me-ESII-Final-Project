@@ -53,6 +53,3 @@ class AnchorLayout(tkinter.Frame):
 
     def hide(self):
         self.pack_forget()
-
-
-

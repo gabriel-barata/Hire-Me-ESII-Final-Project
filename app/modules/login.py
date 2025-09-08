@@ -46,11 +46,9 @@ def submit(root):
                 messagebox.showinfo("Alert!", "Invalid Credentials")
                 break
         else:
-            messagebox.showinfo(
-                 "Email is not registered, Please register"
-            )
+            messagebox.showinfo("Email is not registered, Please register")
     else:
-        messagebox.showinfo( "Please Enter both Email and Password")
+        messagebox.showinfo("Please Enter both Email and Password")
 
 
 def reg(root):

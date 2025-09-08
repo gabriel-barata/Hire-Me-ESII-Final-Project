@@ -40,6 +40,3 @@ class Navbar(tkinter.Frame):
 
     def edit(self, **kwargs):
         self.header_title.configure(**kwargs)
-
-
-

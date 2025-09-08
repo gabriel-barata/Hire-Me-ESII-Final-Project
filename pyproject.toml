@@ -34,7 +34,7 @@ line-length = 79
 [tool.ruff.lint]
 preview = true
 select = ['I', 'F', 'E', 'W', 'PT', 'PL']
-ignore = ["PLR0917", "PLR0913", "PLW0603", "PLR0914", "F821", "PLW0602"]
+ignore = ["PLR0917", "PLR0913", "PLW0603", "PLR0914", "F821", "PLW0602", "PLC0415"]
 
 [tool.ruff.format]
 preview = true

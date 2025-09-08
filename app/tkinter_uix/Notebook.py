@@ -21,5 +21,3 @@ class Notebook(ttk.Notebook):
             "TNotebook.Tab",
             foreground=[("selected", theme.entry_color["outline"])],
         )
-
-

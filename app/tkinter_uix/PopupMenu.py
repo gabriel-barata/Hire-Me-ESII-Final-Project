@@ -47,5 +47,3 @@ class PopupMenu(tkinter.Menu):
 
     def show(self, event):
         self.post(event.x_root, event.y_root)
-
-
